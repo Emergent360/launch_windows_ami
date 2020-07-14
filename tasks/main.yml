@@ -64,13 +64,6 @@
     host: "{{ ec2_result.instances[0].public_ip }}"
     timeout: 300
 
-- name: Set DNS lookup addresses
-  win_dns_client:
-    adapter_names: '*'
-    ipv4_addresses:
-    - "{{ dns_ip1 }}"
-    - "{{ dns_ip2 }}"
-
 - name: Show public IP
   debug:
     msg: "{{ ec2_result.instances[0].public_ip }}"
