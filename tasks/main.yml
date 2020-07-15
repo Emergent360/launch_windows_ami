@@ -44,7 +44,7 @@
     vpc_subnet_id: "{{ subnet_facts.subnets[0].id }}"
     wait: yes
     wait_timeout: 500
-    exact_count: 1
+    exact_count: "{{ instance_count }}"
     count_tag:
       count_tag: Name
     instance_tags:
