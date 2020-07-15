@@ -60,10 +60,12 @@
 - name: "Wait for WinRM on all hosts."
   wait_for:
     port: 5986
-    host: "{{ ec2_result.instances[0].public_ip }}"
+    host: "{{ item.public_ip }}"
     timeout: 300
+  loop: "{{ ec2_result.instances }}"
 
 - name: Show public IP
   debug:
-    msg: "{{ ec2_result.instances[0].public_ip }}"
+    msg: "Public IP: {{ item.public_ip }}"
+  loop: "{{ ec2_result.instances }}"
 
