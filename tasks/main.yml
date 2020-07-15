@@ -54,9 +54,8 @@
     user_data: "{{ lookup('template', '{{ role_path }}/templates/userdata.txt.j2') }}"
   register: ec2_result
 
-- name: set public ip
-  set_fact:
-    public_ip: "{{ ec2_result.instances[0].public_ip }}"
+- debug:
+    msg: "{{ ec2_result }}"
 
 - name: "Wait for WinRM on all hosts."
   wait_for:
