@@ -6,5 +6,4 @@ ec2_az: "{{ec2_region}}a"
 ec2_subnet: "172.16.0.0/16"
 instance_count: 1
 instance_tag_name: "Test Windows Server"
-instance_tag_role: "Test"
 instance_tag_inventory: "Test"
