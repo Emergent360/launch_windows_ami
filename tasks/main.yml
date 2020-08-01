@@ -45,8 +45,8 @@
     wait: yes
     wait_timeout: 500
     exact_count: "{{ instance_count }}"
-    count_tag:
-      count_tag: Name
+    count_tag: 
+      Name: "{{ instance_tag_inventory }} Windows Server"
     instance_tags:
       Name: "{{ instance_tag_inventory }} Windows Server"
       Inventory: "{{ instance_tag_inventory }}"
