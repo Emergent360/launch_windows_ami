@@ -48,8 +48,10 @@
     count_tag: 
       Name: "{{ instance_tag_inventory }} Windows Server"
     instance_tags:
+      Role: windows_server
       Name: "{{ instance_tag_inventory }} Windows Server"
       Inventory: "{{ instance_tag_inventory }}"
+      Stage: "instantiated"
     user_data: "{{ lookup('template', '{{ role_path }}/templates/userdata.txt.j2') }}"
   register: ec2_result
 
