@@ -1,5 +1,5 @@
 <powershell>
-$admin = [adsi]("WinNT://./{{ local_account_username, user")
+$admin = [adsi]("WinNT://./{{ local_account_username }}, user")
 $admin.PSBase.Invoke("SetPassword", "{{ local_account_password }}")
 #Invoke-Expression ((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
 # Enable WinRM
