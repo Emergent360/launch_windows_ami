@@ -49,6 +49,7 @@
       Name: "{{ instance_tag_inventory }} Windows Server"
     instance_tags:
       Role: windows_server
+      Platform: Windows
       Name: "{{ instance_tag_inventory }} Windows Server"
       Inventory: "{{ instance_tag_inventory }}"
       Stage: "instantiated"
