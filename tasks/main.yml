@@ -63,8 +63,8 @@
     timeout: 300
   loop: "{{ ec2_result.instances }}"
 
-- name: Show public IP
+- name: Show private DNS name
   debug:
-    msg: "Public IP: {{ item.public_ip }}"
+    msg: "Public IP: {{ item.private_dns_name }}"
   loop: "{{ ec2_result.instances }}"
 
