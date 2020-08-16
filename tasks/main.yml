@@ -65,6 +65,6 @@
 
 - name: Show private DNS name
   debug:
-    msg: "Public IP: {{ item.private_dns_name }}"
+    msg: "Private DNS name: {{ item.private_dns_name }}"
   loop: "{{ ec2_result.instances }}"
 
