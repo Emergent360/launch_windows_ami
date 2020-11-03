@@ -60,7 +60,7 @@
   wait_for:
     port: 5986
     host: "{{ item.private_ip }}"
-    timeout: 300
+    timeout: 600
   loop: "{{ ec2_result.instances }}"
 
 - name: Show private DNS name
