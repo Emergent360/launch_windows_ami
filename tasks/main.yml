@@ -84,12 +84,12 @@
 
 - name: "Wait for connection on all hosts."
   wait_for:
-    host: "{{ item['tagged_instances'][0]['private_ip'] }}"
+    host: "{{ item['tagged_instances'][0]['public_ip'] }}"
     port: 5986
     timeout: 500
   loop: "{{ ec2.results }}"
   loop_control:
-    label: "{{ item['tagged_instances'][0]['private_ip'] }}"
+    label: "{{ item['tagged_instances'][0]['public_ip'] }}"
 
 - name: Show private DNS name
   debug:
