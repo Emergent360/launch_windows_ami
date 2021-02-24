@@ -80,14 +80,16 @@
   loop: "{{ range(1, instance_count +1)|list }}"
   loop_control:
     label: "{{ item }}"
-  register: ec2_result
+  register: ec2
 
-- name: "Wait for WinRM on all hosts."
+- name: "Wait for connection on all hosts."
   wait_for:
-    port: 5986
-    host: "{{ item.private_ip }}"
-    timeout: 600
-  loop: "{{ ec2_result.instances }}"
+    host: "{{ item['tagged_instances'][0]['private_ip'] }}"
+    port: 22
+    timeout: 500
+  loop: "{{ ec2.results }}"
+  loop_control:
+    label: "{{ item['tagged_instances'][0]['private_ip'] }}"
 
 - name: Show private DNS name
   debug:
