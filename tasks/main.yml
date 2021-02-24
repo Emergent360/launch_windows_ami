@@ -90,9 +90,3 @@
   loop: "{{ ec2.results }}"
   loop_control:
     label: "{{ item['tagged_instances'][0]['public_ip'] }}"
-
-- name: Show private DNS name
-  debug:
-    msg: "Private DNS name: {{ item.private_dns_name }}"
-  loop: "{{ ec2_result.instances }}"
-
