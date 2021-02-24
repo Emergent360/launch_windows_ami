@@ -1,4 +1,5 @@
 ---
+# tasks file for launch_windows_ami
 - name: Get the VPC ID for {{ ec2_name_prefix }}-vpc
   ec2_vpc_net_info:
     filters:
@@ -6,20 +7,43 @@
     region: "{{ ec2_region }}"
   register: vpc_net_facts
 
-- name: Get the SG ID for {{ ec2_name_prefix }}-sg
+- name: Set the VPC ID
+  set_fact:
+    vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
+
+- name: Get the SG info for {{ ec2_name_prefix }}-vpc
   ec2_group_info:
     filters:
-      vpc-id: "{{ vpc_net_facts.vpcs[0].id }}"
-      group-name: "{{ ec2_name_prefix }}-sg"
+      vpc-id: "{{ vpc_id }}"
     region: "{{ ec2_region }}"
-  register: sg_net_facts
+  register: group_info
 
-- name: Get the subnet ID for {{ ec2_name_prefix }}-subnet
+- name: Select Public SG
+  set_fact:
+    group_id: "{{ group_info.security_groups | json_query(group_query) }}"
+  vars:
+    group_query: "[?group_name=='{{ ec2_name_prefix }}-Public-SG'].group_id"
+  when: tier == "Public"
+
+- name: Select Private SG
+  set_fact:
+    group_id: "{{ group_info.security_groups | json_query(group_query) }}"
+  vars:
+    group_query: "[?group_name=='{{ ec2_name_prefix }}-Private-SG'].group_id"
+  when: tier == "Private"
+    
+- name: Get the subnet info for {{ ec2_name_prefix }}-vpc
   ec2_vpc_subnet_info:
     region: "{{ ec2_region }}"
     filters:
       vpc-id: "{{ vpc_net_facts.vpcs[0].id }}"
-  register: subnet_facts
+  register: subnet_info
+
+- name: Select Subnet ID
+  set_fact:
+    subnet_id: "{{ subnet_info.subnets | json_query(subnet_query) | first }}"
+  vars:
+    subnet_query: "[?tags.Name=='{{ ec2_name_prefix }}-{{ tier }}-{{ zone }}'].subnet_id"
 
 - name: "Find current, region-specific Windows AMI."
   ec2_ami_info:
