@@ -1,2 +1,8 @@
 ---
 # defaults file for launch_windows_ami
+ec2_name_prefix: Test
+ec2_region: us-east-1
+ami_name: "Windows_Server-2019-English-Full-Base*"
+instance_type: t2.medium
+instance_count: 1
+instance_tag_inventory: "{{ ec2_name_prefix }}"
