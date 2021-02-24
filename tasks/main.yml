@@ -63,20 +63,23 @@
     region: "{{ ec2_region }}"
     image: "{{ win_ami.image_id }}"
     instance_type: "{{ instance_type }}"
-    group_id: "{{ sg_net_facts.security_groups[0].group_id }}"
-    vpc_subnet_id: "{{ subnet_facts.subnets[0].id }}"
+    group_id: "{{ group_id }}"
+    vpc_subnet_id: "{{ subnet_id }}"
     wait: yes
     wait_timeout: 500
-    exact_count: "{{ instance_count }}"
+    exact_count: 1
     count_tag: 
-      Name: "{{ instance_tag_inventory }} Windows Server"
+      Name: "{{ instance_tag_inventory }} Windows Server {{ item }}"
     instance_tags:
       Role: windows_server
       Platform: Windows
-      Name: "{{ instance_tag_inventory }} Windows Server"
+      Name: "{{ instance_tag_inventory }} Windows Server {{ item }} "
       Inventory: "{{ instance_tag_inventory }}"
       Stage: "instantiated"
     user_data: "{{ lookup('template', '{{ role_path }}/templates/userdata.txt.j2') }}"
+  loop: "{{ range(1, instance_count +1)|list }}"
+  loop_control:
+    label: "{{ item }}"
   register: ec2_result
 
 - name: "Wait for WinRM on all hosts."
